@@ -1,0 +1,10 @@
+bin/
+obj/
+*.exe
+*.pdb
+*.log
+.env
+.env.*
+!.env.example
+*.dat
+*.dat.*
