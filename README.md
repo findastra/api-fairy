@@ -1,5 +1,7 @@
 # API Fairy
 
+*A pet app by Astra.*
+
 A little pixel fairy that lives in the corner of your Windows desktop and keeps track of your API keys. When you add a key, she pops up to tell you. Click her and a window opens with everything she knows about every key: which provider it belongs to, where it lives, how old it is, what uses it, and whether anything about it is risky.
 
 She keeps notes **about** your keys, never the keys themselves.
@@ -77,3 +79,11 @@ Code map:
 ## Credits
 
 Made by Astra. The fairy's handheld is a cousin of Chip from Data Dealer. MIT licensed.
+
+## Browser interface · 2026-10-08
+
+Open [api-fairy-20261008.html](api-fairy-20261008.html) in a modern browser. The dated browser entry is an offline API credential-metadata notebook. It stores labels and rotation notes, never API key values, and does not scan files. The existing Windows desktop implementation remains under src/. Its scanner and background checks are separate from this browser interface.
+
+Current Cage artwork is bundled in `art/` and indexed in `sprite-20261008.json`. Private records, tokens, logs and local machine metadata must stay outside Git.
+
+Source version `0.1.0-20261008`, tag `v0.1.0-20261008`. Publication checks are recorded in `docs/publications-20261008.md`; source publication does not establish live hosting.

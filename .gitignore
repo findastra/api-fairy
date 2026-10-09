@@ -8,3 +8,6 @@ obj/
 !.env.example
 *.dat
 *.dat.*
+# Private browser exports
+*-export-*.json
+*-export-*.md

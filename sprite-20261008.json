@@ -1,0 +1,37 @@
+{
+  "id": "api-fairy",
+  "pet": "API Fairy",
+  "format": "png-mood-frames",
+  "size": [
+    256,
+    256
+  ],
+  "moods": [
+    "idle",
+    "blink",
+    "happy",
+    "curious",
+    "worried",
+    "sad",
+    "sick",
+    "alarmed",
+    "sleep"
+  ],
+  "frames": {
+    "idle": "art/idle-20261008.png",
+    "blink": "art/blink-20261008.png",
+    "happy": "art/happy-20261008.png",
+    "curious": "art/curious-20261008.png",
+    "worried": "art/worried-20261008.png",
+    "sad": "art/sad-20261008.png",
+    "sick": "art/sick-20261008.png",
+    "alarmed": "art/alarmed-20261008.png",
+    "sleep": "art/sleep-20261008.png"
+  },
+  "source": {
+    "repository": "https://github.com/findastra/astras-pet-apps",
+    "art_key": "api-fairy",
+    "copied_on": "2026-10-08",
+    "note": "Latest Cage frame manifest at preparation time; no original private app files copied."
+  }
+}

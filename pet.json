@@ -1,0 +1,24 @@
+{
+  "pet": "API Fairy",
+  "kind": "pet-app",
+  "owner": "Astra",
+  "job": "Lives in the corner of the Windows desktop and keeps notes about your API keys, never the keys themselves.",
+  "sprite": "sprite-20261008.json",
+  "preview": "api-fairy-20261008.html",
+  "status": "growing",
+  "version": "0.1.0-20261008",
+  "source": "https://github.com/findastra/api-fairy/tree/v0.1.0-20261008",
+  "release_tag": "v0.1.0-20261008",
+  "publication_status": "source-release-prepared; see docs/publications-20261008.md",
+  "visibility": "private",
+  "implementation_status": "The dated browser entry is an offline API credential-metadata notebook. It stores labels and rotation notes, never API key values, and does not scan files. The existing Windows desktop implementation remains under src/. Its scanner and background checks are separate from this browser interface.",
+  "cage": {
+    "topic": "pet-app",
+    "home": "README.md",
+    "repository": "https://github.com/findastra/astras-pet-apps"
+  },
+  "updated": "2026-10-08",
+  "built_with": "browser interface prepared with Codex (GPT-6), 2026-10-08",
+  "entry": "api-fairy-20261008.html",
+  "runs_on": "Windows desktop app; separate offline browser pet preview."
+}
