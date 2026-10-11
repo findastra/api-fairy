@@ -24,3 +24,5 @@ Keep this tag immutable. If a defect is found, fix it in a new commit and publis
 ## Remaining work
 
 GitHub Release creation and live hosting verification are tracked separately. Planned external integrations are listed in the README and shown in the browser interface.
+
+Desktop art follow-up (2026-10-11): Fairy wings partly transparent. Source frames and runtime handoff are recorded in desktop-pet-20261011.json. Prepared by OpenAI Codex (GPT-6), 2026-10-11.
