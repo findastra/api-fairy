@@ -1,0 +1,12 @@
+{
+  "pet": "api-fairy",
+  "creator": "Astra",
+  "assistant": "OpenAI Codex (GPT-6)",
+  "date": "2026-10-11",
+  "status": "draft",
+  "desktop_scale": 1,
+  "sparkles": false,
+  "renderer": "astras-pet-apps/scripts/desktop-pets-20261011.cs",
+  "art_files": [],
+  "notes": "Fairy wings partly transparent."
+}

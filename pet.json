@@ -20,5 +20,7 @@
   "updated": "2026-10-08",
   "built_with": "browser interface prepared with Codex (GPT-6), 2026-10-08",
   "entry": "api-fairy-20261008.html",
-  "runs_on": "Windows desktop app; separate offline browser pet preview."
+  "runs_on": "Windows desktop app; separate offline browser pet preview.",
+  "desktop_pet": "desktop-pet-20261011.json",
+  "desktop_art_built_with": "OpenAI Codex (GPT-6), built-in imagegen and native renderer, 2026-10-11"
 }
