@@ -10,7 +10,7 @@
   "source": "https://github.com/findastra/api-fairy/tree/v0.1.0-20261008",
   "release_tag": "v0.1.0-20261008",
   "publication_status": "source-release-prepared; see docs/publications-20261008.md",
-  "visibility": "private",
+  "visibility": "public",
   "implementation_status": "The dated browser entry is an offline API credential-metadata notebook. It stores labels and rotation notes, never API key values, and does not scan files. The existing Windows desktop implementation remains under src/. Its scanner and background checks are separate from this browser interface.",
   "cage": {
     "topic": "pet-app",
@@ -25,8 +25,8 @@
       }
     }
   },
-  "updated": "2026-10-15",
-  "built_with": "browser interface prepared with Codex (GPT-6), 2026-10-08; OpenAI Codex (GPT-6), 2026-10-11",
+  "updated": "2026-10-17",
+  "built_with": "Windows desktop app (src/, tests/, build.cmd) by Claude Opus 5.5 (claude-opus-5-5), 2026-10-07; browser interface prepared with Codex (GPT-6), 2026-10-08; OpenAI Codex (GPT-6), 2026-10-11",
   "entry": "api-fairy-20261008.html",
   "runs_on": "Windows desktop app; separate offline browser pet preview.",
   "desktop_pet": "desktop-pet-20261011.json",

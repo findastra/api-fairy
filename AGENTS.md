@@ -2,7 +2,7 @@
 
 *A pet app by Astra.* Public credit is always Astra.
 
-Browser interface prepared with Codex (GPT-6), 2026-10-08. Record the model and version when another assistant changes this repository.
+Windows desktop app (`src/`, `tests/`, `build.cmd`, `Start API Fairy.cmd`) built with Claude Opus 5.5 (`claude-opus-5-5`), 2026-10-07. Browser interface prepared with Codex (GPT-6), 2026-10-08. Record the model and version when another assistant changes this repository.
 
 ## Scope
 
