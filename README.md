@@ -45,7 +45,7 @@ A freshly built app has no signature or reputation yet, so some antivirus tools 
 What is not done or not verified yet (2026-10-17):
 
 - **First run on Astra's PC: 2026-10-17**, after Malwarebytes was told to allow `bin\`. Before that, Malwarebytes quarantined every build ("MachineLearning/Anomalous.100%", "Trojan.Crypt.MSIL"): false positives for unsigned programs that use Windows encryption. Tests: 83 of 83 pass.
-- **The desktop pet's bubble needs Startup Star.** API Fairy writes what to say to `%LOCALAPPDATA%\astras-pet-os\api-fairy-ring\desktop-signal.json` (moods and key names only). Until Startup Star reads that file (handoff card 018 in astras-pet-os, for Codex), the Windows notification is how she tells you.
+- **The desktop pet's bubble needs Startup Star.** API Fairy writes what to say to `%LOCALAPPDATA%\astras-pet-os\api-fairy-ring\desktop-signal.json` (moods and key names only). Until Startup Star reads that file (handoff card 020 in astras-pet-os, for Codex), the Windows notification is how she tells you.
 - She checks only while she is running. "Start with Windows" exists as a setting but has never been turned on.
 - No weekly stale-key report yet; ages and warnings show only in the window.
 - The `api-fairy-mushroom-circle` tool from Astra's PetOS (short-lived agent keys from Iron Gates) is not built; Iron Gates does not exist yet.
