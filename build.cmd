@@ -12,12 +12,15 @@ if not exist "%FW%\csc.exe" (
 set "CSC=%FW%\csc.exe"
 set "WPF=%FW%\WPF"
 set REFS=/r:"%WPF%\PresentationFramework.dll" /r:"%WPF%\PresentationCore.dll" /r:"%WPF%\WindowsBase.dll" /r:System.Xaml.dll /r:System.Security.dll /r:System.Web.Extensions.dll /r:System.Windows.Forms.dll /r:System.Drawing.dll /r:System.Core.dll
-set CORE=src\Providers.cs src\Dotenv.cs src\Scanner.cs src\Store.cs src\Core.cs src\Sprite.cs
+set CORE=src\Providers.cs src\Dotenv.cs src\Scanner.cs src\Store.cs src\Core.cs
 if not exist bin mkdir bin
 
+rem API Fairy's nine approved mood frames (art/, sprite-20261008.json) are built into the program.
+set ART=
+for %%m in (idle blink happy curious worried sad sick alarmed sleep) do call set ART=%%ART%% /resource:art\%%m-20261008.png,%%m-20261008.png
 set ICON=
 if exist assets\fairy.ico set ICON=/win32icon:assets\fairy.ico
-"%CSC%" /nologo /target:winexe /optimize+ /utf8output /out:"bin\API Fairy.exe" %ICON% /win32manifest:src\app.manifest %REFS% src\*.cs
+"%CSC%" /nologo /target:winexe /optimize+ /utf8output /out:"bin\API Fairy.exe" %ICON% /win32manifest:src\app.manifest %ART% %REFS% src\*.cs
 if errorlevel 1 exit /b 1
 
 if /i "%~1"=="test" (

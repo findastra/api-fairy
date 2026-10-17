@@ -34,8 +34,6 @@ namespace ApiFairy
         void RevealFile(string id);
         void AddFolder();
         void RemoveFolder(string path);
-        void SetMode(string mode);
-        void ResetPosition();
         void SetStartup(bool on);
         string SetRotateDays(string text);
         void CleanHistory();
@@ -47,8 +45,8 @@ namespace ApiFairy
     public sealed class DashboardWindow : Window
     {
         readonly IFairyHost host;
-        readonly WriteableBitmap screen = new WriteableBitmap(Sprite.W, Sprite.H, 96, 96, PixelFormats.Bgra32, null);
-        readonly Sprite.Clock clock = new Sprite.Clock();
+        readonly Image portrait = new Image { Width = 120, Height = 120, Stretch = Stretch.Uniform };
+        readonly Random rng = new Random();
         readonly DispatcherTimer tick = new DispatcherTimer();
         readonly bool reduceMotion = !SystemParameters.ClientAreaAnimation;
 
@@ -78,7 +76,7 @@ namespace ApiFairy
             MinWidth = 820;
             MinHeight = 560;
             Background = Theme.Shell;
-            Icon = Pixels.IconSource(64);
+            Icon = Art.IconSource(64);
             UseLayoutRounding = true;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             TextOptions.SetTextFormattingMode(this, TextFormattingMode.Display);
@@ -110,11 +108,19 @@ namespace ApiFairy
             Content = root;
 
             tick.Interval = TimeSpan.FromMilliseconds(280);
-            tick.Tick += (s, e) => { Pixels.Write(screen, clock.Next(host.SteadyMood, reduceMotion)); UpdateLastCheck(); };
+            tick.Tick += (s, e) => { ShowMood(); UpdateLastCheck(); };
             IsVisibleChanged += (s, e) => { if (IsVisible) tick.Start(); else tick.Stop(); };
             PreviewKeyDown += (s, e) => { if (e.Key == Key.Escape) Hide(); };
-            Pixels.Write(screen, clock.Next(host.SteadyMood, reduceMotion));
+            ShowMood();
             Refresh();
+        }
+
+        // Her approved mood frame for the app's state, with an occasional blink when all is well.
+        void ShowMood()
+        {
+            var mood = Art.MoodFor(host.SteadyMood);
+            if (mood == "happy" && !reduceMotion && rng.Next(12) == 0) mood = "blink";
+            portrait.Source = Art.Frame(mood);
         }
 
         protected override void OnSourceInitialized(EventArgs e)
@@ -187,8 +193,8 @@ namespace ApiFairy
             g.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             g.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
-            var img = new Image { Source = screen, Width = 128, Height = 96, Stretch = Stretch.Fill };
-            RenderOptions.SetBitmapScalingMode(img, BitmapScalingMode.NearestNeighbor);
+            var img = portrait;
+            RenderOptions.SetBitmapScalingMode(img, BitmapScalingMode.HighQuality);
             var lcd = new Border { Background = Theme.Lcd, BorderBrush = Theme.Ink, BorderThickness = new Thickness(3), CornerRadius = new CornerRadius(16), Padding = new Thickness(8), Child = img, VerticalAlignment = VerticalAlignment.Top };
             g.Children.Add(lcd);
 
@@ -351,7 +357,7 @@ namespace ApiFairy
             UpdateLastCheck();
 
             leak.Visibility = host.HistoryKeyLines > 0 ? Visibility.Visible : Visibility.Collapsed;
-            leakText.Text = host.HistoryKeyLines + (host.HistoryKeyLines == 1 ? " line" : " lines") + " in your shell history contain a key. Anyone who opens those files can copy it. Clean history removes those lines; then replace any key you still use.";
+            leakText.Text = host.HistoryKeyLines + (host.HistoryKeyLines == 1 ? " line in your shell history contains" : " lines in your shell history contain") + " a key. Anyone who opens those files can copy it. Clean history removes those lines; then replace any key you still use.";
 
             foreach (var pair in filterButtons)
                 pair.Value.Content = (string)pair.Value.Tag + " " + Filtered(pair.Key).Count();
@@ -614,7 +620,6 @@ namespace ApiFairy
         // ---------------------------------------------------------------- settings tab
 
         readonly ListBox folders = new ListBox();
-        readonly RadioButton perch = new RadioButton(), popUp = new RadioButton();
         readonly CheckBox startup = new CheckBox();
         readonly TextBox rotate = new TextBox { Width = 70, MaxLength = 4 };
         readonly TextBlock rotateResult = Mono("", 12, true);
@@ -648,21 +653,7 @@ namespace ApiFairy
             s.Children.Add(fb);
 
             s.Children.Add(Heading("THE FAIRY ON YOUR SCREEN"));
-            perch.Content = "Stay on screen in the corner";
-            popUp.Content = "Stay hidden, and pop up only when a key is added, changed or removed";
-            foreach (var rb in new[] { perch, popUp })
-            {
-                rb.GroupName = "mode";
-                rb.Style = (Style)Application.Current.Resources["Choice"];
-                s.Children.Add(rb);
-            }
-            perch.Checked += (o, e) => { if (!settingsLoading) host.SetMode(Modes.Perch); };
-            popUp.Checked += (o, e) => { if (!settingsLoading) host.SetMode(Modes.PopUp); };
-            var back = Btn("PUT HER BACK IN THE CORNER", host.ResetPosition, true);
-            back.HorizontalAlignment = HorizontalAlignment.Left;
-            back.Margin = new Thickness(0, 6, 0, 0);
-            s.Children.Add(back);
-            s.Children.Add(Body("Drag her anywhere. Right-click her for more.", 12.5));
+            s.Children.Add(Body("Your desktop API Fairy lives in Startup Star with the other pets. When a key is added, changed or removed, I tell her what to say and Windows shows a notification. Click either one to open this window.", 13.5));
 
             s.Children.Add(Heading("START WITH WINDOWS"));
             startup.Content = "Start API Fairy when I sign in, so she never misses a new key";
@@ -716,8 +707,6 @@ namespace ApiFairy
                 if (f == selected) folders.SelectedItem = item;
             }
             if (st.Folders.Count == 0) folders.Items.Add(new ListBoxItem { Content = Body("No folders yet. Only Windows settings are being watched.", 13), IsEnabled = false });
-            perch.IsChecked = st.FairyMode == Modes.Perch;
-            popUp.IsChecked = st.FairyMode == Modes.PopUp;
             startup.IsChecked = host.StartupOn;
             if (!rotate.IsKeyboardFocused) rotate.Text = st.RotateDays.ToString(CultureInfo.InvariantCulture);
             notesFile.Text = "Encrypted for your Windows account at " + host.NotesFile + ". Other accounts and other PCs can't read it, and the folder is locked to your account.";

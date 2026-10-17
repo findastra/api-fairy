@@ -31,7 +31,7 @@ namespace ApiFairy
             Native.SetDllDirectory("");
 
             int i = Array.IndexOf(args, "--export-icon");
-            if (i >= 0 && i + 1 < args.Length) { Pixels.WriteIco(args[i + 1]); return 0; }
+            if (i >= 0 && i + 1 < args.Length) { Art.WriteIco(args[i + 1]); return 0; }
             i = Array.IndexOf(args, "--snapshot");
             if (i >= 0 && i + 1 < args.Length) return Snapshot.Run(args[i + 1]);
 
@@ -99,11 +99,9 @@ namespace ApiFairy
         readonly bool launchedAtSignIn;
         readonly Store store;
         readonly Scanner scanner;
-        readonly FairyWindow fairy = new FairyWindow();
         readonly AutoResetEvent wake = new AutoResetEvent(false);
         readonly object rootsLock = new object();
         readonly List<FileSystemWatcher> watchers = new List<FileSystemWatcher>();
-        readonly DispatcherTimer hideTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(6) };
         DashboardWindow dash;
         System.Windows.Forms.NotifyIcon tray;
         IntPtr trayIcon;
@@ -114,7 +112,7 @@ namespace ApiFairy
         string hitsSignature = "";
         string mood = "happy";
         DateTime lastScan = DateTime.MinValue;
-        bool tucked;
+        int badge;
 
         public Controller(Application app, bool launchedAtSignIn)
         {
@@ -129,20 +127,6 @@ namespace ApiFairy
         public void Start()
         {
             var st = store.Data.Settings;
-            if (st.FairyPlaced)
-            {
-                fairy.Left = st.FairyLeft;
-                fairy.Top = st.FairyTop;
-                fairy.ClampToScreen();
-            }
-            else fairy.PlaceDefault();
-            fairy.OpenRequested += (s, e) => ShowDashboard();
-            fairy.HideRequested += (s, e) => { tucked = true; fairy.HideBubble(); fairy.Hide(); };
-            fairy.QuitRequested += (s, e) => Quit();
-            fairy.Moved += (s, e) => { st.FairyLeft = fairy.Left; st.FairyTop = fairy.Top; st.FairyPlaced = true; Save(); };
-            fairy.BubbleClosed += (s, e) => { if (ShouldHide()) hideTimer.Start(); };
-            hideTimer.Tick += (s, e) => { hideTimer.Stop(); if (ShouldHide() && !fairy.BubbleVisible) fairy.Hide(); };
-            if (st.FairyMode == Modes.Perch) fairy.Show();
             SetupTray();
             Startup.Refresh();
             if (store.LoadProblem != null) Say(store.LoadProblem, true);
@@ -151,8 +135,6 @@ namespace ApiFairy
             worker.Start();
             if (!launchedAtSignIn && st.Welcomed) ShowDashboard();
         }
-
-        bool ShouldHide() { return tucked || store.Data.Settings.FairyMode == Modes.PopUp; }
 
         // ---- background checks ----
 
@@ -240,15 +222,13 @@ namespace ApiFairy
             wake.Set();
         }
 
-        // ---- the fairy and the tray ----
+        // ---- telling you: Startup Star's desktop API Fairy, plus a Windows notification ----
 
         void Say(string text, bool sticky)
         {
             if (string.IsNullOrEmpty(text)) return;
-            hideTimer.Stop();
-            tucked = false;
-            if (!fairy.IsVisible) fairy.Show();
-            fairy.Say(text, sticky);
+            DesktopSignal.Say("curious", badge, text, sticky);
+            if (tray != null) tray.ShowBalloonTip(10000, "API Fairy", text, System.Windows.Forms.ToolTipIcon.Info);
         }
 
         void Changed(bool save)
@@ -258,8 +238,8 @@ namespace ApiFairy
             var now = DateTime.UtcNow;
             mood = Core.Mood(d, hits, historyLines, now);
             int needs = d.Keys.Count(r => Core.NeedsAttention(r, d, hits, now)) + (historyLines > 0 ? 1 : 0);
-            fairy.SetMood(mood);
-            fairy.SetBadge(needs);
+            badge = needs;
+            DesktopSignal.Write(Art.MoodFor(mood), needs);
             if (tray != null)
             {
                 int active = d.Keys.Count(r => r.Present && !r.Ignored);
@@ -281,12 +261,12 @@ namespace ApiFairy
 
         void SetupTray()
         {
-            using (var bmp = Pixels.Icon(32)) trayIcon = bmp.GetHicon();
+            using (var bmp = Art.Icon(32)) trayIcon = bmp.GetHicon();
             tray = new System.Windows.Forms.NotifyIcon { Icon = System.Drawing.Icon.FromHandle(trayIcon), Text = "API Fairy", Visible = true };
             var menu = new System.Windows.Forms.ContextMenuStrip();
             menu.Items.Add("Open API Fairy", null, (s, e) => ShowDashboard());
-            menu.Items.Add("Show the fairy", null, (s, e) => { tucked = false; fairy.Show(); });
             menu.Items.Add("Check now", null, (s, e) => ScanNow());
+            tray.BalloonTipClicked += (s, e) => ShowDashboard();
             menu.Items.Add(new System.Windows.Forms.ToolStripSeparator());
             menu.Items.Add("Quit", null, (s, e) => Quit());
             tray.ContextMenuStrip = menu;
@@ -301,8 +281,6 @@ namespace ApiFairy
             if (!dash.IsVisible) dash.Show();
             if (dash.WindowState == WindowState.Minimized) dash.WindowState = WindowState.Normal;
             dash.Activate();
-            fairy.HideBubble();
-            if (ShouldHide()) hideTimer.Start();
         }
 
         // ---- IFairyHost ----
@@ -424,24 +402,6 @@ namespace ApiFairy
             ApplyFolders();
         }
 
-        public void SetMode(string mode)
-        {
-            if (mode != Modes.Perch && mode != Modes.PopUp) return;
-            store.Data.Settings.FairyMode = mode;
-            Save();
-            tucked = false;
-            if (mode == Modes.Perch) { hideTimer.Stop(); fairy.Show(); }
-            else if (!fairy.BubbleVisible) fairy.Hide();
-        }
-
-        public void ResetPosition()
-        {
-            store.Data.Settings.FairyPlaced = false;
-            Save();
-            fairy.PlaceDefault();
-            Say("Back in my corner!", false);
-        }
-
         public void SetStartup(bool on)
         {
             try { Startup.Set(on); }
@@ -494,7 +454,6 @@ namespace ApiFairy
             if (tray != null) { tray.Visible = false; tray.Dispose(); tray = null; }
             Native.FreeIcon(trayIcon);
             if (dash != null) { dash.AllowClose = true; dash.Close(); }
-            fairy.Close();
             app.Shutdown();
         }
     }

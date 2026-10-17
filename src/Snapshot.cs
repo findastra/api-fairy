@@ -17,14 +17,7 @@ namespace ApiFairy
             Directory.CreateDirectory(dir);
             var app = new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
             app.Resources = Theme.Load();
-            FairyWindow.Still = true;
             var host = new DemoHost();
-
-            var fairy = new FairyWindow();
-            fairy.SetMood("curious");
-            fairy.SetBadge(3);
-            fairy.Say("New key! OPENAI_API_KEY (OpenAI) in your Windows settings. Tap me to add a note.", true);
-            Save(Detach(fairy, null), FairyWindow.Wd, FairyWindow.Ht, Path.Combine(dir, "fairy.png"));
 
             foreach (var tab in new[] { "keys", "settings", "how" })
             {
@@ -106,8 +99,6 @@ namespace ApiFairy
             public void RevealFile(string id) { }
             public void AddFolder() { }
             public void RemoveFolder(string path) { }
-            public void SetMode(string mode) { }
-            public void ResetPosition() { }
             public void SetStartup(bool on) { }
             public string SetRotateDays(string text) { return null; }
             public void CleanHistory() { }

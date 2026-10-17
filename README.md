@@ -2,7 +2,9 @@
 
 *A pet app by Astra.*
 
-A little pixel fairy that lives in the corner of your Windows desktop and keeps track of your API keys. When you add a key, she pops up to tell you. Click her and a window opens with everything she knows about every key: which provider it belongs to, where it lives, how old it is, what uses it, and whether anything about it is risky.
+API Fairy keeps track of your API keys on Windows. When you add, change or remove a key, she tells you: her desktop pet (drawn by Startup Star, with the other pets) says it in a bubble, and Windows shows a notification. Click either one and a window opens with everything she knows about every key: which provider it belongs to, where it lives, how old it is, what uses it, and whether anything about it is risky.
+
+![The API Fairy window, with made-up keys](docs/dashboard-keys.png)
 
 She keeps notes **about** your keys, never the keys themselves.
 
@@ -12,7 +14,7 @@ She keeps notes **about** your keys, never the keys themselves.
 - **`.env` files** in the folders you choose (by default `Documents\Projects`), including subfolders up to 6 levels deep.
 - **Your shell history** (PowerShell and Git Bash). Typing a key into a command saves it there in plain text, so she checks for that too.
 
-She checks every 2 seconds and pops up when a key is **added**, **changed**, or **removed**.
+She checks every 2 seconds and speaks up when a key is **added**, **changed**, or **removed**.
 
 ## What she tells you
 
@@ -29,7 +31,7 @@ And gentler warnings for keys older than 6 months (you can change this), the sam
 ## Use it
 
 1. Double-click **Start API Fairy.cmd**. The first time, it builds the app with the C# compiler that comes with Windows (a few seconds, nothing downloaded).
-2. The fairy appears in the bottom-right corner and says hello. Drag her anywhere; right-click her for options.
+2. API Fairy's icon appears in the taskbar tray, and Windows says hello. Click the icon (or the notification) to open the window. On the desktop, the API Fairy that Startup Star shows is the same fairy.
 3. Click her to open the window. In **Settings**, tick **Start with Windows** so she never misses a new key.
 
 To add a key the safe way, click **ADD A KEY**. Windows opens its own Environment Variables window; add the key under **User variables**, and she'll pop up within a couple of seconds.
@@ -42,8 +44,8 @@ A freshly built app has no signature or reputation yet, so some antivirus tools 
 
 What is not done or not verified yet (2026-10-17):
 
-- **The Windows desktop app has never run on Astra's PC.** Malwarebytes quarantined every fresh build: `API Fairy.exe` as "MachineLearning/Anomalous.100%" (2026-10-07 and 2026-10-14) and the test runner as "Trojan.Crypt.MSIL" (2026-10-08). These are false positives for unsigned programs that use Windows encryption, but until the build is allowed, the fairy, the window, the 2-second checks and the pop-ups are untested on a real desktop. The tests in `tests/` do pass (83 of 83, 2026-10-08).
-- No screenshots yet: the picture renderer (`--snapshot`) is part of the same blocked program.
+- **First run on Astra's PC: 2026-10-17**, after Malwarebytes was told to allow `bin\`. Before that, Malwarebytes quarantined every build ("MachineLearning/Anomalous.100%", "Trojan.Crypt.MSIL"): false positives for unsigned programs that use Windows encryption. Tests: 83 of 83 pass.
+- **The desktop pet's bubble needs Startup Star.** API Fairy writes what to say to `%LOCALAPPDATA%\astras-pet-os\api-fairy-ring\desktop-signal.json` (moods and key names only). Until Startup Star reads that file (handoff card 018 in astras-pet-os, for Codex), the Windows notification is how she tells you.
 - She checks only while she is running. "Start with Windows" exists as a setting but has never been turned on.
 - No weekly stale-key report yet; ages and warnings show only in the window.
 - The `api-fairy-mushroom-circle` tool from Astra's PetOS (short-lived agent keys from Iron Gates) is not built; Iron Gates does not exist yet.
@@ -79,8 +81,8 @@ Code map:
 | `src/Scanner.cs` | Looks in Windows settings, `.env` files, and shell history; makes fingerprints; asks git about `.env` files |
 | `src/Core.cs` | Decides what changed, what's risky, and what the fairy says |
 | `src/Store.cs` | The encrypted notes file |
-| `src/Sprite.cs` | The pixel fairy and her moods |
-| `src/FairyWindow.cs` | The fairy on the desktop |
+| `src/Art.cs` | Her approved mood frames (`art/`), built into the program, and the app icon |
+| `src/DesktopSignal.cs` | Tells Startup Star's desktop API Fairy what to say |
 | `src/DashboardWindow.cs` | The main window |
 | `src/App.cs` | Startup, the background checks, and the tray icon |
 
