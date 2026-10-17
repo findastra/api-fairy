@@ -18,7 +18,7 @@
     "repository": "https://github.com/findastra/astras-pet-apps"
   },
   "updated": "2026-10-08",
-  "built_with": "browser interface prepared with Codex (GPT-6), 2026-10-08; OpenAI Codex (GPT-6), 2026-10-11",
+  "built_with": "Windows desktop app (src/, tests/, build.cmd) by Claude Opus 5.5 (claude-opus-5-5), 2026-10-07; browser interface prepared with Codex (GPT-6), 2026-10-08; OpenAI Codex (GPT-6), 2026-10-11",
   "entry": "api-fairy-20261008.html",
   "runs_on": "Windows desktop app; separate offline browser pet preview.",
   "desktop_pet": "desktop-pet-20261011.json",

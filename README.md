@@ -6,10 +6,6 @@ A little pixel fairy that lives in the corner of your Windows desktop and keeps 
 
 She keeps notes **about** your keys, never the keys themselves.
 
-![The fairy on the desktop, announcing a new key](docs/fairy.png)
-
-![The API Fairy window](docs/dashboard-keys.png)
-
 ## What she watches
 
 - **Windows environment variables**, for your account and for the whole PC. This is where `OPENAI_API_KEY`-style keys usually live.
@@ -41,6 +37,18 @@ To add a key the safe way, click **ADD A KEY**. Windows opens its own Environmen
 ### If your antivirus blocks it
 
 A freshly built app has no signature or reputation yet, so some antivirus tools (Malwarebytes especially) may quarantine `API Fairy.exe` as "MachineLearning/Anomalous". That's a false positive: every line of the app is in `src/`, and you built it yourself. To allow it in Malwarebytes: **Detection History → Allow List → Add → Allow a file or folder**, and pick `bin\API Fairy.exe` (and `bin\tests.exe` if you run the tests). Then run `Start API Fairy.cmd --rebuild`.
+
+## Limits
+
+What is not done or not verified yet (2026-10-17):
+
+- **The Windows desktop app has never run on Astra's PC.** Malwarebytes quarantined every fresh build: `API Fairy.exe` as "MachineLearning/Anomalous.100%" (2026-10-07 and 2026-10-14) and the test runner as "Trojan.Crypt.MSIL" (2026-10-08). These are false positives for unsigned programs that use Windows encryption, but until the build is allowed, the fairy, the window, the 2-second checks and the pop-ups are untested on a real desktop. The tests in `tests/` do pass (83 of 83, 2026-10-08).
+- No screenshots yet: the picture renderer (`--snapshot`) is part of the same blocked program.
+- She checks only while she is running. "Start with Windows" exists as a setting but has never been turned on.
+- No weekly stale-key report yet; ages and warnings show only in the window.
+- The `api-fairy-mushroom-circle` tool from Astra's PetOS (short-lived agent keys from Iron Gates) is not built; Iron Gates does not exist yet.
+- The browser notebook (`api-fairy-20261008.html`) is a separate offline page. It does not scan anything and does not share data with the desktop app.
+- The app is not code-signed.
 
 ## How it keeps your keys safe
 
