@@ -15,12 +15,30 @@
   "cage": {
     "topic": "pet-app",
     "home": "README.md",
-    "repository": "https://github.com/findastra/astras-pet-apps"
+    "repository": "https://github.com/findastra/astras-pet-apps",
+    "submit": {
+      "date": "2026-10-15",
+      "audit": {
+        "cadence": "manual",
+        "subject": "Pet Program source, shared controls and declared tool behavior",
+        "needs": "Local source review; real runtime and desktop actions require separate verification"
+      }
+    }
   },
-  "updated": "2026-10-08",
+  "updated": "2026-10-15",
   "built_with": "browser interface prepared with Codex (GPT-6), 2026-10-08; OpenAI Codex (GPT-6), 2026-10-11",
   "entry": "api-fairy-20261008.html",
   "runs_on": "Windows desktop app; separate offline browser pet preview.",
   "desktop_pet": "desktop-pet-20261011.json",
-  "desktop_art_built_with": "OpenAI Codex (GPT-6), built-in imagegen and native renderer, 2026-10-11"
+  "desktop_art_built_with": "OpenAI Codex (GPT-6), built-in imagegen and native renderer, 2026-10-11",
+  "audit": {
+    "cadence": "manual",
+    "subject": "Pet Program source, shared controls and declared tool behavior",
+    "needs": "Local source review; real runtime and desktop actions require separate verification"
+  },
+  "framework": "PET-PROGRAM-FRAMEWORK.md (shared shell 2026-10-15; partial implementation)",
+  "framework_limitations": [
+    "Shared presentation does not establish a connected L3 harness",
+    "Native click bindings and per-tool runtime acceptance require verification"
+  ]
 }

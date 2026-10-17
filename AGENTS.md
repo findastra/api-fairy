@@ -26,3 +26,5 @@ Check the actual browser script syntax and meaningful user flows after behavior 
 Cage: https://github.com/findastra/astras-pet-apps. Repository topic: `pet-app`.
 
 Desktop appearance revision by OpenAI Codex (GPT-6), 2026-10-11. See desktop-pet-20261011.json; runtime behavior is in astras-pet-apps.
+
+Shared original yellow-phone shell and Pet Collar UI by OpenAI Codex (GPT-6), 2026-10-15. Coins retired by owner. Existing program/host behavior is preserved; shared disconnected controls do not establish an L3 connection.
