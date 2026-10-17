@@ -4,7 +4,7 @@
 - Owner and credit: Astra
 - Version: `0.1.0-20261008`
 - Immutable source tag: `v0.1.0-20261008`
-- Intended private repository: https://github.com/findastra/api-fairy
+- Repository: https://github.com/findastra/api-fairy (public; Astra decided 2026-10-17)
 - Browser entry: `api-fairy-20261008.html`
 
 ## Publication boundary

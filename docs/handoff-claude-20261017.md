@@ -31,7 +31,7 @@ Hub card: `findastra/astras-pet-os` `handoffs/017-any-api-fairy-desktop-verify-2
 1. **Allow the build in Malwarebytes.** Allow List → Add → Allow a file or folder →
    `%USERPROFILE%\Documents\Astra's Pet Apps\api-fairy\bin`. Malwarebytes is your antivirus (Windows Defender
    real-time protection is off). This is a security setting, so only you change it.
-2. **Visibility.** `pet.json` says `"visibility": "private"` and docs/publications-20261008.md says "intended private
+2. **Visibility: decided 2026-10-17, public.** Was: `pet.json` says `"visibility": "private"` and docs/publications-20261008.md says "intended private
    repository", but the repo is public on GitHub (anyone can clone it) and the hub's `pets.json` says public. Make it
    private, or record it as public?
 3. **Merge order.** `main` and the two Codex branches (`codex/yellow-phone-20261015`, `codex/l3-activity-20261016`)
