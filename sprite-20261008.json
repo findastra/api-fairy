@@ -29,7 +29,7 @@
     "sleep": "art/sleep-20261008.png"
   },
   "source": {
-    "repository": "https://github.com/findastra/astras-pet-apps",
+    "repository": "https://github.com/findastra/astras-pet-os",
     "art_key": "api-fairy",
     "copied_on": "2026-10-08",
     "note": "Latest Cage frame manifest at preparation time; no original private app files copied."
