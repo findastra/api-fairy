@@ -2,7 +2,7 @@
   "pet": "API Fairy",
   "kind": "pet-app",
   "owner": "Astra",
-  "job": "Lives in the corner of the Windows desktop and keeps notes about your API keys, never the keys themselves.",
+  "job": "Keeps notes about your API keys, never the keys themselves: where each lives and what uses it, which keys have gone stale, and which new keys to get. Lives in the corner of the Windows desktop.",
   "sprite": "sprite-20261008.json",
   "preview": "api-fairy-20261008.html",
   "status": "growing",
@@ -15,7 +15,7 @@
   "cage": {
     "topic": "pet-app",
     "home": "README.md",
-    "repository": "https://github.com/findastra/astras-pet-apps",
+    "repository": "https://github.com/findastra/astras-pet-os",
     "submit": {
       "date": "2026-10-15",
       "audit": {
